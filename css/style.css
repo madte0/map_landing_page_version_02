@@ -217,7 +217,7 @@ header {
     text-align: center;
     padding: 0 5%;
     position: relative;
-    background: url('/img/map_home_bg.png') no-repeat center center/cover;
+    background: url('https://madte0.github.io/map_landing_page_version_02/img/map_home_bg.png') no-repeat center center/cover;
     background-attachment: fixed;
     align-items: end;
 }
@@ -260,7 +260,7 @@ main section:first-of-type {
 
 /* --- Features Section --- */
 .features {
-    background: url('/img/map_home_bg_02.png') no-repeat center center/cover;
+    background: url('https://madte0.github.io/map_landing_page_version_02/img/map_home_bg_02.png') no-repeat center center/cover;
     background-attachment: fixed;
     padding-top: 250px;
 }
