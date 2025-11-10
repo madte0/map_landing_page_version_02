@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAP | Golf Innovations</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="header-spacer"></div>
+
+        <div class="logo-container">
+            <a href="#home" class="logo">
+                <img src="img/map_gold_logo.png" alt="MAP GOLF INNOVATIONS">
+            </a>
+        </div>
+
+        <nav class="navbar" id="navbar">
+            <button class="nav-close-btn" id="nav-close-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <ul class="nav-links">
+                <li><a href="#features" class="nav-link">Our Products</a></li>
+                <li><a href="#gallery" class="nav-link">Putts & Markers</a></li>
+                <li><a href="#about" class="nav-link">Ambassador</a></li>
+                <li><a href="#contact" class="nav-link cta-link">Contact</a></li>
+            </ul>
+        </nav>
+
+        <button class="menu-toggle" id="menu-toggle">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </header>
+
+    <main>
+
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1>PERFECTION, FORGED FOR YOUR GAME.</h1>
+                <p>Experience the ultimate in precision with our bespoke putters and markers, crafted exclusively for you.</p>
+                <a href="#contact" class="cta-button">Begin Your Commission</a>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="container">
+                <h2>Custom Putters & Markers.</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <h3>Bespoke Design</h3>
+                        <p>From weight and balance to intricate engravings, every detail is tailored to your exact specifications.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>Premium Materials</h3>
+                        <p>We source only the finest materials, including Damascus steel, carbon fiber, and exotic woods.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>Unmatched Feel</h3>
+                        <p>Our obsessive attention to detail results in a perfectly balanced instrument that feels like an extension of you.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery" id="gallery">
+            <div class="container">
+                <h2>Engineered for your stroke, designed for timeless appeal.</h2>
+                <div class="gallery-grid">
+                    <img src="/img/gallery-1.png" alt="MAP | Golf Innovations" class="gallery-item">
+                    <img src="/img/gallery-2.png" alt="MAP | Golf Innovations" class="gallery-item">
+                    <img src="/img/gallery-3.png" alt="MAP | Golf Innovations" class="gallery-item">
+                    <img src="/img/gallery-4.png" alt="MAP | Golf Innovations" class="gallery-item">
+                    <img src="/img/gallery-5.png" alt="MAP | Golf Innovations" class="gallery-item">
+                    <img src="/img/gallery-6.png" alt="MAP | Golf Innovations" class="gallery-item">
+                    <img src="/img/gallery-7.png" alt="MAP | Golf Innovations" class="gallery-item">
+                    <img src="/img/gallery-8.png" alt="MAP | Golf Innovations" class="gallery-item">
+                </div>
+            </div>
+        </section>
+
+        <section class="about" id="about">
+            <div class="container small-container">
+                <h2>BE an Ambassador</h2>
+                <p>Join a select group of <strong>Golfers shaping the next chapter of putting</strong>. Take part in the Limited Founders Editions, a collection reserved for early collaborators.</p><br>
+                <a href="#contact" class="cta-button">Request Invitation</a>
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <div class="container small-container">
+                <h2>Commission Your Masterpiece</h2>
+                <p class="contact-intro">Begin the conversation. Fill out the form below, and our master craftsman will contact you directly to discuss your vision.</p>
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="interest">I'm interested in a...</label>
+                        <select id="interest" name="interest">
+                            <option value="putter">Custom Putter</option>
+                            <option value="marker">Custom Marker</option>
+                            <option value="set">Putter & Marker Set</option>
+                            <option value="other">Other Inquiry</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Vision</label>
+                        <textarea id="message" name="message" rows="6" placeholder="Describe your ideal design, materials, or any questions you have..."></textarea>
+                    </div>
+                    <button type="submit" class="cta-button">Send Inquiry</button>
+                </form>
+                <div id="form-success-message" class="form-success">
+                    Thank you for your inquiry! We will be in touch soon.
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Artisan Golf. All rights reserved.</p>
+            </div>
+    </footer>
+
+    <div id="gallery-modal" class="modal">
+        <span class="modal-close" id="modal-close">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18M6 6L18 18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </span>
+        
+        <span class="modal-nav" id="modal-prev"><</span> <span class="modal-nav" id="modal-next">></span> <img class="modal-content" id="modal-image">
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
