@@ -588,6 +588,10 @@ footer p {
     .hero {
         background-attachment: scroll;
     }
+
+    .hero-content  {
+        padding-top: 80px;
+    }
     
     main section:first-of-type {
         padding-top: 70px; /* Mobile header height */
