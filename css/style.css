@@ -585,9 +585,9 @@ footer p {
     }
 
     /* Mobile Hero */
-    .hero {
+    /*.hero {
         background-attachment: scroll;
-    }
+    }*/
     
     main section:first-of-type {
         padding: 70px 0 0 0; /* Mobile header height */
