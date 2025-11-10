@@ -253,9 +253,9 @@ header {
     color: rgba(255, 255, 255, 0.9);
 }
 
-main section:first-of-type {
-    padding: 202px 0px; /* Desktop header height (154px logo + 2*1.5rem padding) */
-}
+/*main section:first-of-type {
+    padding: 202px 0px; /* Desktop header height (154px logo + 2*1.5rem padding)
+}*/
 
 
 /* --- Features Section --- */
@@ -586,7 +586,7 @@ footer p {
 
     /* Mobile Hero */
     .hero {
-        padding: 70px 0 0 0; /* Mobile header height */
+        padding: 300px 0 0 0; /* Mobile header height */
         background-attachment: scroll;
     }
     
