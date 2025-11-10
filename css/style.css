@@ -586,11 +586,12 @@ footer p {
 
     /* Mobile Hero */
     .hero {
+        padding: 70px 0 0 0; /* Mobile header height */
         background-attachment: scroll;
     }
     
-    main section:first-of-type {
-        padding: 70px 0 0 0; /* Mobile header height */
+    .features, .gallery, .about, .contact {
+        padding: 50px 0 0 0; /* Mobile header height */
     }
     
     h1 {
