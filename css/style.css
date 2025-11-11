@@ -599,6 +599,7 @@ footer p {
 
     .features {
         background-attachment: scroll;
+        background-position: right;
     }
 
     .features, .gallery, .about, .contact {
