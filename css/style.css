@@ -650,9 +650,14 @@ footer p {
 }
 
 @media (max-width: 480px) {
-    h1 {
-        font-size: 2.2rem;
+    .hero-content h1 {
+        font-size: 20px;
     }
+
+    .hero-content p {
+        font-size: 15px;
+    }
+
     h2 {
         font-size: 2rem;
     }
@@ -662,6 +667,7 @@ footer p {
     .cta-button {
         width: 100%;
         padding: 1rem;
+        font-size: 12px;
     }
     .gallery-grid {
         grid-template-columns: 1fr 1fr;
