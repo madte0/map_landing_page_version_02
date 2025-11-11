@@ -596,7 +596,11 @@ footer p {
     .hero-content  {
         margin: 600px 0 50px 0;
     }
-    
+
+    .features {
+        background-attachment: scroll;
+    }
+
     .features, .gallery, .about, .contact {
         padding: 130px 0 30px 0; /* Mobile header height */
     }
