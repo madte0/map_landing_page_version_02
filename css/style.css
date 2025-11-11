@@ -654,15 +654,11 @@ footer p {
         font-size: 20px;
     }
 
-    .hero-content p {
-        font-size: 15px;
-    }
-
     h2 {
         font-size: 2rem;
     }
     .hero-content p {
-        font-size: 1.1rem;
+        font-size: 15px;
     }
     .cta-button {
         width: 100%;
