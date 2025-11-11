@@ -262,6 +262,7 @@ header {
     background: url("https://madte0.github.io/map_landing_page_version_02/img/map_home_bg_02.png") no-repeat center center/cover;
     background-attachment: fixed;
     padding-top: 250px;
+    padding-bottom: 70px;
 }
 
 .features-grid {
@@ -289,6 +290,7 @@ header {
 /* --- Gallery Section --- */
 .gallery {
     padding-top: 250px;
+    padding-bottom: 70px;
 }
 
 .gallery-grid {
@@ -317,6 +319,7 @@ header {
     background-color: var(--color-secondary);
     text-align: center;
     padding-top: 250px;
+    padding-bottom: 70px;
 }
 
 .about p {
@@ -327,6 +330,7 @@ header {
 /* --- Contact Section --- */
 .contact {
     padding-top: 250px;
+    padding-bottom: 70px;
 }
 
 .contact-intro {
