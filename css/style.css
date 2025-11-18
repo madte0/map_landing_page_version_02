@@ -1,11 +1,12 @@
 /* --- CSS Variables (Theme) --- */
 :root {
-    --font-primary: 'Oswald', sans-serif;
-    --font-secondary: 'Montserrat', sans-serif;
+    --font-primary: "Raleway", sans-serif;
+    --font-secondary: "Montserrat", sans-serif;
+    --font-tertiary: "Playfair Display", serif;
     --color-primary: #0a0a0a; /* Very dark grey, almost black */
     --color-secondary: #1a1a1a; /* Dark grey */
     --color-text: #eaeaea;
-    --color-accent: #857247; /* Muted, elegant gold */
+    --color-accent: #c49963; /* Muted, elegant gold */
     --color-white: #ffffff;
 }
 
@@ -29,17 +30,13 @@ body {
     overflow-x: hidden;
 }
 
-h1, h2, h3 {
-    font-family: var(--font-primary);
+h2, h3 {
+    font-family: var(--font-secondary);
     font-weight: 600;
     color: var(--color-white);
     line-height: 1.2;
 }
 
-h1 {
-    font-size: 4.5rem;
-    margin-bottom: 1rem;
-}
 
 h2 {
     font-size: 3rem;
@@ -57,10 +54,9 @@ h3 {
 }
 
 p {
-    font-family: var(--font-secondary);
+    font-family: var(--font-primary);
     margin-bottom: 1.5rem;
     font-size: 1.1rem;
-    font-weight: 300;
 }
 
 a {
@@ -242,13 +238,13 @@ header {
 }
 
 .hero-content h1 {
-    font-size: 3rem;
-    color: rgba(255, 255, 255, 0.9);
+    font-family: var(--font-tertiary);
+    font-size: 60px;
+    color: #fff;
 }
 
 .hero-content p {
     font-size: 1.5rem;
-    margin-bottom: 2.5rem;
     color: rgba(255, 255, 255, 0.9);
 }
 
@@ -329,6 +325,7 @@ header {
 
 /* --- Contact Section --- */
 .contact {
+    background-color: var(--color-secondary);
     padding-top: 250px;
     padding-bottom: 70px;
 }
