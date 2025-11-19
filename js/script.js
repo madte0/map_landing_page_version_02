@@ -91,21 +91,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- Contact Form Submission ---
-    const contactForm = document.getElementById("contact-form");
-    const successMessage = document.getElementById("form-success-message");
-
-    if (contactForm && successMessage) {
-        contactForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            
-            successMessage.style.display = "block";
-            contactForm.reset();
-
-            setTimeout(() => {
-                successMessage.style.display = "none";
-            }, 5000);
-        });
-    }
-
 });
