@@ -108,26 +108,93 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-    // --- Contact Form Submission ---
+    // --- Contact Form Submission (sends to Google Apps Script endpoint) ---
     const contactForm = document.getElementById("contact-form");
     const successMessage = document.getElementById("form-success-message");
 
+    // === CONFIGURE THESE ===
+    // Replace this with the URL you get after deploying the Apps Script web app
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyD1CSv1ZjTR35VQEWpaiFFlo7jqIimHTqAOoZi7lFNRUXlr4KbKohxCvimXXm8mi0RwQ/exec";
+
+    // Optional: a secret string that both the client and script share. Set the same string in Apps Script.
+    const WEBHOOK_SECRET = "9c5b94b1-35ad-10bb-b118-8e8fc24abf80";
+    // =======================
+
     if (contactForm && successMessage) {
-        contactForm.addEventListener("submit", (e) => {
-            e.preventDefault(); // Prevent actual form submission for this demo
+        contactForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-            // In a real project, you would send data to a server here.
-            
-            // Show success message
-            successMessage.style.display = "block";
-            
-            // Reset form
-            contactForm.reset();
+            // Collect form data
+            const formData = new FormData(contactForm);
+            const payload = {
+                name: (formData.get("name") || "").trim(),
+                email: (formData.get("email") || "").trim(),
+                interest: (formData.get("interest") || "").trim(),
+                message: (formData.get("message") || "").trim(),
+                to: "ateo05@gmail.com" // destination email (you asked for this)
+            };
 
-            // Hide success message after 5 seconds
-            setTimeout(() => {
-                successMessage.style.display = "none";
-            }, 5000);
+            // Simple front-end validation
+            if (!payload.name) {
+                alert("Please enter your name.");
+                return;
+            }
+            if (!payload.email || !/^\S+@\S+\.\S+$/.test(payload.email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+            if (!payload.message) {
+                if (!confirm("Send without a message?")) return;
+            }
+
+            // Disable submit button to prevent duplicate sends
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = "Sending…";
+            }
+
+            // Send to Apps Script endpoint
+            try {
+                const res = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-WEBHOOK-SECRET": WEBHOOK_SECRET
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!res.ok) {
+                    // try to get error message
+                    let errText = await res.text();
+                    throw new Error(`Server responded with ${res.status}: ${errText}`);
+                }
+
+                const result = await res.json();
+
+                if (result && result.status === "success") {
+                    // Show success message
+                    successMessage.style.display = "block";
+                    // Reset form
+                    contactForm.reset();
+
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.style.display = "none";
+                    }, 5000);
+                } else {
+                    throw new Error(result && result.message ? result.message : "Unknown server response");
+                }
+            } catch (err) {
+                console.error("Contact form send error:", err);
+                alert("An error occurred while sending. Check the browser console for details.");
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Send Inquiry";
+                }
+            }
         });
     }
 
