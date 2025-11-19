@@ -34,21 +34,34 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalNext = document.getElementById("modal-next");
 
     // Create an array of all gallery image sources
-    const galleryImageSrcs = Array.from(galleryItems).map(item => item.src);
+    const galleryImageSrcs = Array.from(galleryItems)
+        .map(item => item && (item.src || item.getAttribute('data-src') || ""))
+        .filter(src => !!src); // remove empty strings
     let currentIndex = 0;
 
     // Function to update the modal image
     function updateModalImage(index) {
+        if (!galleryImageSrcs.length) return;
+        // clamp index
+        index = ((index % galleryImageSrcs.length) + galleryImageSrcs.length) % galleryImageSrcs.length;
         currentIndex = index;
-        modalImage.src = galleryImageSrcs[currentIndex];
+        // Only update if modalImage exists
+        if (modalImage) modalImage.src = galleryImageSrcs[currentIndex];
     }
 
-    if (modal && modalImage && modalClose && galleryItems && modalPrev && modalNext) {
+    // Only attach modal functionality if we actually have images and required DOM nodes
+    if (modal && modalImage && modalClose && modalPrev && modalNext && galleryImageSrcs.length) {
         
         // Add click event to each gallery item to open the modal
         galleryItems.forEach((item, index) => {
+            if (!item) return;
             item.addEventListener("click", () => {
-                updateModalImage(index); // Set the correct image
+                // ensure the clicked item has a valid src index (if images were filtered, map index to src)
+                // Find the index of this item's src in galleryImageSrcs
+                const src = item.src || item.getAttribute('data-src') || "";
+                const idx = galleryImageSrcs.indexOf(src);
+                const openIndex = idx >= 0 ? idx : 0;
+                updateModalImage(openIndex); // Set the correct image
                 modal.classList.add("active");
             });
         });
@@ -57,14 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Next button
         modalNext.addEventListener("click", () => {
-            // Modulo operator (%) handles wrapping back to 0
             let nextIndex = (currentIndex + 1) % galleryImageSrcs.length;
             updateModalImage(nextIndex);
         });
 
         // Previous button
         modalPrev.addEventListener("click", () => {
-            // This formula correctly handles wrapping from 0 to the last index
             let prevIndex = (currentIndex - 1 + galleryImageSrcs.length) % galleryImageSrcs.length;
             updateModalImage(prevIndex);
         });
@@ -106,6 +117,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
+    } else {
+        // If modal exists but we had no images, hide modal controls to avoid confusing UI
+        if (modal && modalImage && (!galleryImageSrcs.length)) {
+            console.warn("Gallery modal initialized but no gallery images found.");
+            // optionally hide modal controls if present
+            if (modalPrev) modalPrev.style.display = "none";
+            if (modalNext) modalNext.style.display = "none";
+            if (modalClose) modalClose.style.display = "none";
+        }
     }
 
     // --- Contact Form Submission (sends to Google Apps Script endpoint) ---
@@ -120,7 +140,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const WEBHOOK_SECRET = "9c5b94b1-35ad-10bb-b118-8e8fc24abf80";
     // =======================
 
+    // tiny helper: show a non-blocking message (used for dev)
+    function showTemporaryMessage(msg, duration = 5000) {
+        if (!successMessage) return;
+        successMessage.textContent = msg;
+        successMessage.style.display = "block";
+        setTimeout(() => {
+            successMessage.style.display = "none";
+        }, duration);
+    }
+
     if (contactForm && successMessage) {
+        // ensure success message is hidden initially (defensive)
+        successMessage.style.display = successMessage.style.display || "none";
+
         contactForm.addEventListener("submit", async (e) => {
             e.preventDefault();
 
@@ -148,54 +181,107 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // Disable submit button to prevent duplicate sends
-            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const submitBtn = contactForm.querySelector('button[type="submit"], input[type="submit"]');
             if (submitBtn) {
                 submitBtn.disabled = true;
+                // keep the original text for restoration
+                const originalBtnText = submitBtn.textContent;
                 submitBtn.textContent = "Sending…";
-            }
 
-            // Send to Apps Script endpoint
-            try {
-                const res = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-WEBHOOK-SECRET": WEBHOOK_SECRET
-                    },
-                    body: JSON.stringify(payload),
-                });
+                // Send to Apps Script endpoint
+                try {
+                    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("REPLACE_WITH")) {
+                        throw new Error("Google Script URL not configured. Please set GOOGLE_SCRIPT_URL in js/script.js");
+                    }
 
-                if (!res.ok) {
-                    // try to get error message
-                    let errText = await res.text();
-                    throw new Error(`Server responded with ${res.status}: ${errText}`);
+                    const controller = new AbortController();
+                    const timeout = setTimeout(() => controller.abort(), 20000); // 20s timeout
+
+                    const res = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-WEBHOOK-SECRET": WEBHOOK_SECRET
+                        },
+                        body: JSON.stringify(payload),
+                        signal: controller.signal
+                    });
+
+                    clearTimeout(timeout);
+
+                    if (!res.ok) {
+                        // try to get error message
+                        let errText;
+                        try {
+                            errText = await res.text();
+                        } catch (e) {
+                            errText = `Status ${res.status}`;
+                        }
+                        throw new Error(`Server responded with ${res.status}: ${errText}`);
+                    }
+
+                    // parse JSON safely
+                    let result;
+                    try {
+                        result = await res.json();
+                    } catch (parseErr) {
+                        throw new Error("Failed to parse server response as JSON.");
+                    }
+
+                    if (result && result.status === "success") {
+                        // Show success message and reset
+                        successMessage.textContent = "Thank you for your inquiry! We will be in touch soon.";
+                        successMessage.style.display = "block";
+                        contactForm.reset();
+
+                        // Hide success message after 5 seconds
+                        setTimeout(() => {
+                            successMessage.style.display = "none";
+                        }, 5000);
+                    } else {
+                        const msg = result && result.message ? result.message : "Unknown server response";
+                        throw new Error(msg);
+                    }
+                } catch (err) {
+                    console.error("Contact form send error:", err);
+                    // show friendly error to the user
+                    alert("An error occurred while sending. Open the browser console for more info.");
+                } finally {
+                    // restore button state
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = submitBtn.getAttribute('data-original-text') || "Send Inquiry";
+                    }
                 }
+            } else {
+                // no submit button found — still attempt send (edge-case)
+                try {
+                    const res = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-WEBHOOK-SECRET": WEBHOOK_SECRET
+                        },
+                        body: JSON.stringify(payload),
+                    });
 
-                const result = await res.json();
-
-                if (result && result.status === "success") {
-                    // Show success message
-                    successMessage.style.display = "block";
-                    // Reset form
-                    contactForm.reset();
-
-                    // Hide success message after 5 seconds
-                    setTimeout(() => {
-                        successMessage.style.display = "none";
-                    }, 5000);
-                } else {
-                    throw new Error(result && result.message ? result.message : "Unknown server response");
-                }
-            } catch (err) {
-                console.error("Contact form send error:", err);
-                alert("An error occurred while sending. Check the browser console for details.");
-            } finally {
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = "Send Inquiry";
+                    if (!res.ok) throw new Error("Network response was not ok");
+                    const result = await res.json();
+                    if (result && result.status === "success") {
+                        showTemporaryMessage("Thank you for your inquiry!");
+                        contactForm.reset();
+                    } else {
+                        throw new Error(result && result.message ? result.message : "Unknown server response");
+                    }
+                } catch (err) {
+                    console.error("Contact form send error:", err);
+                    alert("An error occurred while sending. Check the console for details.");
                 }
             }
         });
+    } else {
+        if (!contactForm) console.warn("No contact form element found with id 'contact-form'.");
+        if (!successMessage) console.warn("No success message element found with id 'form-success-message'.");
     }
 
 });
