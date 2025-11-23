@@ -312,7 +312,8 @@ header {
 
 /* --- About Section --- */
 .about {
-    background-color: var(--color-secondary);
+    background: url("https://madte0.github.io/map_landing_page_version_02/img/map_Parragraph_bg.png") no-repeat center center/cover;
+    /*background-color: var(--color-secondary);*/
     text-align: center;
     padding-top: 250px;
     padding-bottom: 70px;
@@ -321,6 +322,11 @@ header {
 .about p {
     font-size: 1.25rem;
     font-weight: 300;
+}
+
+.name_higlight {
+    color: var(--color-accent);
+    font-weight: 600;
 }
 
 /* --- Contact Section --- */
