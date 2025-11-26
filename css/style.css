@@ -211,7 +211,7 @@ header {
     justify-content: center;
     text-align: center;
     position: relative;
-    background: url("https://madte0.github.io/map_landing_page_version_02/img/map_home_bg.png") no-repeat center center/cover;
+    background: url("https://mapgolfinnovations.com/img/map_home_bg.png") no-repeat center center/cover;
     background-attachment: fixed;
     align-items: end;
 }
@@ -255,7 +255,7 @@ header {
 
 /* --- Features Section --- */
 .features {
-    background: url("https://madte0.github.io/map_landing_page_version_02/img/map_home_bg_02.png") no-repeat center center/cover;
+    background: url("https://mapgolfinnovations.com/img/map_home_bg_02.png") no-repeat center center/cover;
     background-attachment: fixed;
     padding-top: 250px;
     padding-bottom: 70px;
@@ -312,7 +312,7 @@ header {
 
 /* --- About Section --- */
 .about {
-    background: url("https://madte0.github.io/map_landing_page_version_02/img/map_Parragraph_bg.png") no-repeat center center/cover;
+    background: url("https://mapgolfinnovations.com/img/map_Parragraph_bg.png") no-repeat center center/cover;
     /*background-color: var(--color-secondary);*/
     text-align: center;
     padding-top: 250px;
